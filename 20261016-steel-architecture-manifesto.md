@@ -82,12 +82,12 @@ Steel Architecture Manifesto
 * **Repository 實作類別**：
   * 100% 壟斷所有副作用。包含 SQL 語句、ORM 呼叫（Laravel Eloquent, TS Prisma）、Redis 快取讀寫、外部 gRPC/HTTP API 呼叫。
   * 內部負責解析呼叫者傳入的 `Strategy Option`（策略選項），並將其路由、指定給具體的技術驅動器（Drivers）。
+  * 輸出 Entity 或 Value Object。
 * **DTO (Data Transfer Object)**：
   * 純粹用來服務具體的 Endpoint（如 HTTP 請求、Socket 封包、CLI 參數）。
   * 它的結構與外觀完全聽命於「外部通訊協定與 UI 畫面」，作為核心 Entity 的防彈衣，負責吸收所有來自前端改版的震盪波。
 
 #### ❌ 絕對不放什麼進來
-* ❌ 核心層的 Entity 絕對不准直接兼任 DTO 吐給最外層。
 * ❌ 內部的具體技術細節（如 `PDO`、`MongoClient`、SQL 字串、特定 ORM 物件）絕對不准外洩出這一層。
 * ❌ 絕對不准在這一層去定義或干涉任何 Invariants 或商務策略。這一層是純粹的奴隸，只負責資料的搬運與持久化副作用。
 
